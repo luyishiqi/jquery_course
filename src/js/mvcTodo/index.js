@@ -1,4 +1,5 @@
 define(function (reqire, exports, module) {
+  var dom=require('mvcTodo/dom');
 
   /**
    *  option选项配置
@@ -48,9 +49,8 @@ define(function (reqire, exports, module) {
         if(!tagName==='input'){
           return;
         }
-        var todoIndex = target.parentNode.getAttribute('todoIndex');
-              control = target.getAttribute('control');
-        console.log(todoIndex);
+        var todoIndex = dom().init(target).parent().attr('todoIndex');
+              control = dom().init(target).attr('control');
         if(control==='del'){
           _self._delTodo(todoIndex);
         }
@@ -103,11 +103,8 @@ define(function (reqire, exports, module) {
      */
     _createBtn:function(value,control){
       //创建按钮
-      var input   = document.createElement('input');
-      input.type  = 'button';
-      input.value = value;
-      input.setAttribute('control',control);
-      return input;
+     
+      return dom().init('<input>').attr('type','button').attr({value:value,control:control}).end();
     },
 
     /**
@@ -118,24 +115,34 @@ define(function (reqire, exports, module) {
       var frame = document.createDocumentFragment(),
           _self = this;
       this.todoList.forEach(function(todo,index){
-        var  todoDom = document.createElement('li'),
-            delInput = _self._createBtn('删除','del'),
-           doneInput = _self._createBtn('完成','toggleDone');
-
+        var  todoDom = dom().init('<li>'), //todo dom结构
+            delInput = _self._createBtn('删除','del'), //删除按钮
+           doneInput = _self._createBtn('完成','toggleDone');//完成按钮
+        // console.log(delInput,doneInput)
+        //判断是否完成
         if(todo.done){
           todoDom.className='todo done'
         }else{
           todoDom.className='todo';
         }
-        todoDom.innerHTML=todo.name;
-        todoDom.setAttribute('todoIndex',index);
-        todoDom.appendChild(delInput);
-        todoDom.appendChild(doneInput);
-        frame.appendChild(todoDom);
+        //设置任务名称
+        // todoDom.innerHTML=todo.name;
+        // //设置任务索引
+        // todoDom.setAttribute('todoIndex',index);
+        // //给任务dom添加按钮
+        // todoDom.appendChild(delInput);
+        // todoDom.appendChild(doneInput);
+        todoDom=todoDom.html(todo.name).append(delInput).append(doneInput).end();
+        console.log(todoDom,'fdsfd');
+        //将tododom添加到节点片段
+        frame.appendChild( todoDom);
       });
-      console.log(this.todoListDom)
-      this.todoListDom.innerHTML='';
-      this.todoListDom.appendChild(frame);
+      // console.log(this.todoListDom)
+      //清空任务列表view
+      // this.todoListDom.innerHTML='';
+      // //更新任务列表view
+      // this.todoListDom.appendChild(frame);
+      dom().init(this.todoListDom).html('').append(frame);
     },
   }
 
