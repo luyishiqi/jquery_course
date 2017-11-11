@@ -1,5 +1,5 @@
 define(function (reqire, exports, module) {
-  var dom=require('mvcTodo/dom');
+  var $=require('mvcTodo/dom');
 
   /**
    *  option选项配置
@@ -49,8 +49,8 @@ define(function (reqire, exports, module) {
         if(!tagName==='input'){
           return;
         }
-        var todoIndex = dom().init(target).parent().attr('todoIndex');
-              control = dom().init(target).attr('control');
+        var todoIndex = $(target).parent().attr('todoIndex');
+              control = $(target).attr('control');
         if(control==='del'){
           _self._delTodo(todoIndex);
         }
@@ -104,7 +104,7 @@ define(function (reqire, exports, module) {
     _createBtn:function(value,control){
       //创建按钮
      
-      return dom().init('<input>').attr('type','button').attr({value:value,control:control}).end();
+      return $('<input>').attr('type','button').attr({value:value,control:control}).end();
     },
 
     /**
@@ -115,7 +115,7 @@ define(function (reqire, exports, module) {
       var frame = document.createDocumentFragment(),
           _self = this;
       this.todoList.forEach(function(todo,index){
-        var  todoDom = dom().init('<li>'), //todo dom结构
+        var  todoDom = $('<li>'), //todo dom结构
             delInput = _self._createBtn('删除','del'), //删除按钮
            doneInput = _self._createBtn('完成','toggleDone');//完成按钮
         // console.log(delInput,doneInput)
@@ -142,7 +142,7 @@ define(function (reqire, exports, module) {
       // this.todoListDom.innerHTML='';
       // //更新任务列表view
       // this.todoListDom.appendChild(frame);
-      dom().init(this.todoListDom).html('').append(frame);
+      $(this.todoListDom).html('').append(frame);
     },
   }
 

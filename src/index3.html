@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 深拷贝对象实现
+    var obj1 = {
+      name: '张三',
+      hobby: [1, 23, 23, 21, 3],
+      school: {
+        name: 'youshu'
+      }
+    }
+    var obj2 = {
+      age: 123,
+
+    }
+
+    // for (var key in obj1) {
+    //   obj2[key] = obj1[key];
+    // }
+    // obj2.school.name = 'modify'
+    // console.log(obj2, obj1);
+
+    obj2 = extend(obj2, obj1, {
+      m: '21312312',
+      total: 123,
+    });
+    obj2.school.name = 'modify'
+    console.log(obj2);
+
+    function extend(target) {
+      var objs = [].slice.call(arguments, 1);
+      for (var i = 0; i < objs.length; i++) {
+        var object = objs[i];
+        for (var key in object) {
+          var val = object[key];
+          if (val instanceof Array) {
+            target[key] = extend([], val);
+          } else if (val instanceof Object) {
+            target[key] = extend({}, val);
+          } else {
+            target[key] = object[key];
+          }
+        }
+      }
+      return target;
+    }
+
+
+    function Class() {
+
+    }
+    Class.type=function(data){
+      var t = Object.prototype.toString
+      .call(data)
+      .match(/\[object\s(.+)\]/)[1]
+      .toLowerCase();
+    return t;
+    }
+    Class.extend = function (target) {
+      var objs = [].slice.call(arguments, 1);
+  
+      for (var i = 0; i < objs.length; i++) {
+        var object = objs[i];
+        for (var key in object) {
+          var val = object[key];
+      
+          if (Class.type(val)==='array') {
+            target[key] = extend([], val);
+          } else if (Class.type(val)==='object') {
+            target[key] = extend({}, val);
+          } else {
+            console.log('fjsdklafjskljk')
+            target[key] = object[key];
+          }
+        }
+      }
+      return target;
+    }
+    Class.fn = Class.prototype = {
+      constructor: Class,
+      extend: function () {
+        var _arg=[].slice.call(arguments);
+        var result;
+        _arg.unshift(Class.fn);
+        result=Class.extend.apply(this,_arg);
+        console.log(result);
+      }
+    }
+
+    //扩展方法
+    Class.fn.extend({
+      aaa: function () {
+        console.log('aaaa');
+        return this;
+      },
+      bbb:function(){
+        console.log('fjskdlfjksdlajfklsjdaklfj')
+        return this;
+      }
+    })
+
+    // console.dir(new Class());
+
+    new Class().aaa().bbb().aaa();
+  </script>
+</body>
+
+</html>
