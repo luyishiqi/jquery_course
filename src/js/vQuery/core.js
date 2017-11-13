@@ -8,7 +8,7 @@ define(function (require, exports, module) {
   // 核心代码
   function $(cssSelector) {
     return $
-      .fn
+      .prototype
       .init(cssSelector);
   }
 
@@ -157,6 +157,6 @@ define(function (require, exports, module) {
         .apply(this, _arg);
     }
   }
-
+  $.fn.init.prototype=$.fn;
   module.exports = $;
 })
