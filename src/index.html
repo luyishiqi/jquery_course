@@ -4,32 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>任务管理系统</title>
-  <style>
-    .todo.done{
-      text-decoration: line-through;
-    }
-  </style>
+  <title>Document</title>
 </head>
-<body data="21312321">
-  <h1>任务管理系统</h1>
-  <div class="header">
-    <input type="text" class="todo-text"> 
-    <input type="button" value="添加任务" class="todo-btn">
-  </div>
-  <ul class="todo-list">
-    <li class="todo">
-      dasklfj
-    </li>
-    <li class="todo">
-      fsdjalkfjkl
-    </li>
-  </ul>
+<body>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <script src="js/jquery.js"></script>
+  <script>
+    //jquery是一个库（工具库，函数仓库），操作 dom  ajax 动画 ，内部实现了模块化
 
-  <div class="box"></div>
-  <div class="box"></div>
-  <div class="box"></div>
-  <div class="box"></div>
-  <script src="js/require.js" data-main="./js/main.js"></script>
+    /*
+    库       工具箱
+    框架     土胚房和工具箱的集合
+    模块     一个类
+    组件     包括 html css js 以及使用规则的 一段代码
+    插件     在保持原有功能的基础上，扩展功能
+
+
+    外挂     
+    
+
+    
+    */
+    // jquery的语法
+    //实例方法
+    //$(css选择器).方法（）.方法（）
+
+    //静态方法 工具方法
+    //$.ajax()  $.get() $.Callbacks()
+
+      $('.box').css({
+        width:100,
+        height:100,
+        backgroundColor:'red'
+      }).animate({
+        width:200,
+        marginTop:30
+      }).delay(300).animate({
+        marginLeft:300
+      })
+    
+  </script>
 </body>
 </html>

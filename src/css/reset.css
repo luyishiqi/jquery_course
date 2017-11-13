@@ -23,7 +23,8 @@ time, mark, audio, video {
 	font-style: normal;
 }
 img{
-	display: block;
+  /* display: block; */
+  vertical-align: middle;
 }
 
 article, aside, details, figcaption, figure, 
@@ -48,4 +49,15 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+.clearfix::after,
+.clearfix::before{
+  clear: both;
+  content: '';
+  display: block;
 }
