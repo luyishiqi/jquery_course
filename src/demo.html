@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>楼层导航</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <style>
+    html,body{
+      width: 100%;
+      height: 100%;
+    }
+    .main{
+      height: 1000%;
+    }
+    .floor{
+      width: 100%;
+      height: 10%;
+      text-align: center;
+      font-size: 100px;
+    }
+    .floor-nav{
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 1px solid #dedede;
+      background: #fff;
+      left: 100px;
+    }
+    .floor-nav li{
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .floor-nav li:hover{
+      background: hotpink;
+      color: #fff;
+    }
+    .floor-nav li+li{
+      border-top: 1px solid #dedcde;
+    }
+    .back-top{
+      width: 50px;
+      height: 50px;
+      position: fixed;
+      bottom: 10%;
+      right: 10%;
+      background: #fff;
+      text-align: center;
+      line-height: 50px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <ul class="floor-nav">
+    <li>第1楼</li>
+    <li>第2楼</li>
+    <li>第3楼</li>
+    <li>第4楼</li>
+    <li>第5楼</li>
+    <li>第6楼</li>
+    <li>第7楼</li>
+    <li>第8楼</li>
+    <li>第9楼</li>
+    <li>第10楼</li>
+  </ul>
+  <div class="main">
+    <div id="floor1" class="floor">我是第1楼</div>
+    <div id="floor2" class="floor">我是第2楼</div>
+    <div id="floor3" class="floor">我是第3楼</div>
+    <div id="floor4" class="floor">我是第4楼</div>
+    <div id="floor5" class="floor">我是第5楼</div>
+    <div id="floor6" class="floor">我是第6楼</div>
+    <div id="floor7" class="floor">我是第7楼</div>
+    <div id="floor8" class="floor">我是第8楼</div>
+    <div id="floor9" class="floor">我是第9楼</div>
+    <div id="floor10" class="floor">我是第10楼</div>
+  </div>
+  <div class="back-top">
+    顶
+  </div>
+  <script src="js/jquery.js"></script>
+  <script>
+    var color = function(){
+      var result='';
+      var color =[0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'];
+      for(var i=0 ;i<6;i++){
+        result+= color[parseInt(Math.random()*color.length)];
+      }
+      return '#'+result;
+    }
+    console.log(color());
+    $('.floor').css('background-color',function(index
+    ){
+      return color();
+    })
+
+
+    $('.floor-nav li').on('click',function(){
+      var $index = $(this).index();
+
+     var top = $('.floor').eq($index).offset().top;
+     console.log('第'+($index+1)+'个的楼层top值为：',top);
+
+    //  $(window).scrollTop(top);
+    $('body,html').animate({
+      scrollTop:top
+    })
+    })
+
+
+    $('.back-top').on('click',function(){
+      $(this).animate({
+        top:'-100%',
+        opacity:0
+      },1000,function(){
+        $('body,html').animate({
+          scrollTop:0
+        })
+      })
+    })
+  </script>
+</body>
+</html>
