@@ -1,138 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>事件</title>
   <link rel="stylesheet" href="css/reset.css">
   <style>
-    .dialog {
-      display: none;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      top: 0;
-      z-index: 999;
-    }
-
-    .dialog .dialog-mark {
-      display: none;
-      position: absolute;
-      /* top: 0;
-      left: 0;
-      bottom: 0;
-      top: 0; */
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, .8);
-    }
-
-    .dialog-content {
-      display: none;
-      position: absolute;
-      width: 30%;
-      background: #fff;
-      left: 50%;
-      top: 10%;
-      transform: translateX(-50%);
-    }
-
-    .dialog-heading {
-      position: relative;
-      border-bottom: 1px solid #dedede;
-      padding: 20px;
-    }
-
-    .dialog-heading h2 {
-      text-align: center;
-      font-size: 24px;
-    }
-
-    .dialog-heading span {
-      cursor: pointer;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .dialog-body {
-      padding: 30px;
-    }
-
-    .form-group {
-      margin-top: 10px;
-    }
-
-    .form-group label {
-      display: inline-block;
+    .box{
       width: 100px;
-      text-align: right;
-      vertical-align: middle;
-    }
-
-    .form-group input {
-      width: 50%;
-      padding: 5px 10px;
+      height: 100px;
+      background: red;
     }
   </style>
 </head>
-
 <body>
-  <div class="dialog">
-    <div class="dialog-mark"></div>
-    <div class="dialog-content">
-      <div class="dialog-heading">
-        <h2>弹出窗</h2>
-        <span class="dialog-close">&times;</span>
-      </div>
-      <div class="dialog-body">
-        <div class="form-group">
-          <label for="username">用户名</label>
-          <input class="username" id="username" type="text" placeholder="请输入用户名">
-        </div>
-        <div class="form-group">
-          <label for="password">密码</label>
-          <input class="password" id="password" type="text" placeholder="请输入密码">
-        </div>
-      </div>
-      <div class="dialog-footer">
-        <ul class="other">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-  <input type="button" class="btn" value="按钮">
+  <div class="box"></div>
+  
   <script src="js/jquery.js"></script>
   <script>
-    $('.btn').on('click', function () {
-      $('.dialog').show(function () {
-        $(this).find('.dialog-mark').fadeIn(function () {
-          $(this).next().fadeIn();
-        })
-      })
-    })
+    //$(xxx).事件名(fun)
+
+    // $('.box').click(function(ev){
+    //   alert('123213213');
+    // })
+
+    // // addEventListener('click');
+
+    // $('.box').mousemove(function(ev){
+    //   console.log('mousemove',ev);
+    // });
 
 
-    $('.dialog-mark,.dialog-close').on('click', function () {
-      $('.dialog-content').fadeOut(function () {
-        $(this).prev().fadeOut(function () {
-          $(this).parent().hide();
-        })
-      })
-    })
 
+    // $('.box').on('click',function(){
+    //   console.log(21321321);
+    // });
+
+
+    // $('.box').on('mouseover',function(){
+    //   console.log(21321321);
+    // });
+
+      function clickHandle (event) {
+          console.log('事件');
+          $('.box').off('click',clickHandle);
+      }
+
+      $('.box').on('click',clickHandle);
+
+    // var dom=function(str){
+    //   var el = document.querySelector(str);
+    //   var method={};
+    //   'click mousemove mousedown mouseup keydown keyup input submit reset mouseout'.split(' ').forEach(function(item){
+    //     method[item]=function(fn){
+    //       el.addEventListener(item,function(evenet){
+    //         fn.call(this,evenet);
+    //       })
+
+            // document.removeEventListener();//移除事件
+    //     }
+    //   });
+    //   return method;
+    // }
+
+    // console.log(dom('body'));
   </script>
 </body>
-
 </html>

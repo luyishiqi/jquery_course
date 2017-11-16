@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>jquery实现拖拽</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <style>
+    [drop],
+    .drop {
+
+      width: 100px;
+      height: 100px;
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="drop"></div>
+  <div drop></div>
+  <script src="js/jquery.js"></script>
+  <script>
+    function down(evenet) {
+      var $el = $(this),
+        $isPos = ($el.css('position') === 'static') || ($el.css('position') === 'relative');
+      if ($isPos) {
+        $el.css({
+          'position': 'fixed',
+          zInde: 1
+        });
+      }
+      $(document).on('mousemove', $el, move);
+    }
+
+    function move(evenet) {
+      var x = event.pageX,
+        y = event.pageY,
+        $el = evenet.data,
+        w = $el.width(),
+        h = $el.height(),
+        winSize = {
+          w: $(window).width(),
+          h: $(window).height()
+        },
+        top,
+        left;
+      // 上
+      if(y < (h / 2)){
+        top=0;
+      }else{
+        top=y - (h / 2);
+      }
+      //左
+      if(x<(w/2)){
+        left=0;
+      }else{
+        left=x-(w/2);
+      }
+      // 右
+      if((x > winSize.w - w )){
+        left= winSize.w - w 
+      }
+      //下
+      if(y>winSize.h-h){
+        top = winSize.h-h;
+      }
+      $el.css({
+        left:left,
+        top: top
+      })
+    }
+    
+    function up(){
+      $(document).off('mousemove',move);
+    }
+
+    $('body').on('mousedown','[drop],.drop', down);
+    $('body').on('mouseup', '[drop],.drop',up);
+  </script>
+</body>
+
+</html>

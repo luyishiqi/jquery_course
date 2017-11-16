@@ -8,5 +8,8 @@
     "dev": "browser-sync start --server \"src\" --files \"src\""
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "preact": "^8.2.6"
+  }
 }
