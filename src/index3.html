@@ -21,6 +21,7 @@
 <body>
   <div class="drop"></div>
   <div drop></div>
+  <script src="js/require.js"></script>
   <script src="js/jquery.js"></script>
   <script>
     function down(evenet) {
@@ -79,6 +80,9 @@
 
     $('body').on('mousedown','[drop],.drop', down);
     $('body').on('mouseup', '[drop],.drop',up);
+
+
+
   </script>
 </body>
 
