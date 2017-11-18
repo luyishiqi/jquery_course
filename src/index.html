@@ -1,70 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>事件</title>
+  <title>动画</title>
   <link rel="stylesheet" href="css/reset.css">
   <style>
-    .box{
+    .box {
       width: 100px;
       height: 100px;
+      background-color: red;
+    }
+
+    .progress {
+      position: relative;
+      width: 500px;
+      height: 30px;
+      border: 1px solid #000;
+    }
+
+    .progress .progress-bar {
+      /* width: 100%; */
+      width: 0;
+      height: 100%;
       background: red;
+      text-align: center;
+      line-height: 30px;
+    }
+
+    .progress .progress-text {
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .progress .progress-text::after {
+      content: '%';
+      color: #fff;
+    }
+
+    .progress .progress-bar.end {
+      background-color: green;
+    }
+
+    .progress .progress-bar.start {
+      background-color: red;
     }
   </style>
 </head>
+
 <body>
-  <div class="box"></div>
-  
+  <div class="box">
+
+  </div>
+  <div class="progress">
+    <div class="progress-bar">
+
+    </div>
+    <span class="progress-text"></span>
+  </div>
+
+  <div class="count">0</div>
   <script src="js/jquery.js"></script>
   <script>
-    //$(xxx).事件名(fun)
 
-    // $('.box').click(function(ev){
-    //   alert('123213213');
+   
+    
+    // 底层动画方法  animate  自定义动画
+
+    // $('.box').animate({width:500},3000,'swing',function(){
+    //   console.log('动画执行完成')
     // })
-
-    // // addEventListener('click');
-
-    // $('.box').mousemove(function(ev){
-    //   console.log('mousemove',ev);
-    // });
-
-
-
-    // $('.box').on('click',function(){
-    //   console.log(21321321);
-    // });
-
-
-    // $('.box').on('mouseover',function(){
-    //   console.log(21321321);
-    // });
-
-      function clickHandle (event) {
-          console.log('事件');
-          $('.box').off('click',clickHandle);
+    $('.progress-bar').animate({
+      width: '100%'
+    }, {
+      duration: 10000,
+      easing: 'linear',
+      progress: function (animate, progress, ms) {
+        var cur = (progress * 100);
+        if (cur < 50) {
+          $(this).addClass('start');
+        }
+        if (cur > 50) {
+          $(this).removeClass('start').addClass('end')
+        }
+        $(this).next().html(cur.toFixed(2));
       }
-
-      $('.box').on('click',clickHandle);
-
-    // var dom=function(str){
-    //   var el = document.querySelector(str);
-    //   var method={};
-    //   'click mousemove mousedown mouseup keydown keyup input submit reset mouseout'.split(' ').forEach(function(item){
-    //     method[item]=function(fn){
-    //       el.addEventListener(item,function(evenet){
-    //         fn.call(this,evenet);
-    //       })
-
-            // document.removeEventListener();//移除事件
-    //     }
-    //   });
-    //   return method;
-    // }
-
-    // console.log(dom('body'));
+    })
   </script>
 </body>
+
 </html>
