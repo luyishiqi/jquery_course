@@ -5,92 +5,87 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>动画</title>
+  <title>延迟对象</title>
   <link rel="stylesheet" href="css/reset.css">
   <style>
     .box {
       width: 100px;
       height: 100px;
-      background-color: red;
-    }
-
-    .progress {
-      position: relative;
-      width: 500px;
-      height: 30px;
-      border: 1px solid #000;
-    }
-
-    .progress .progress-bar {
-      /* width: 100%; */
-      width: 0;
-      height: 100%;
       background: red;
-      text-align: center;
-      line-height: 30px;
-    }
-
-    .progress .progress-text {
-      color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .progress .progress-text::after {
-      content: '%';
-      color: #fff;
-    }
-
-    .progress .progress-bar.end {
-      background-color: green;
-    }
-
-    .progress .progress-bar.start {
-      background-color: red;
     }
   </style>
 </head>
 
 <body>
-  <div class="box">
+  <div class="box"></div>
 
-  </div>
-  <div class="progress">
-    <div class="progress-bar">
-
-    </div>
-    <span class="progress-text"></span>
-  </div>
-
-  <div class="count">0</div>
-  <script src="js/jquery.js"></script>
+  <script src="js/jquery.js">
+  </script>
   <script>
+    // 让异步代码扁平化，脱离回调地狱, 提供异步函数链式操作
+    console.log(1);
 
-   
-    
-    // 底层动画方法  animate  自定义动画
 
-    // $('.box').animate({width:500},3000,'swing',function(){
-    //   console.log('动画执行完成')
-    // })
-    $('.progress-bar').animate({
-      width: '100%'
-    }, {
-      duration: 10000,
-      easing: 'linear',
-      progress: function (animate, progress, ms) {
-        var cur = (progress * 100);
-        if (cur < 50) {
-          $(this).addClass('start');
-        }
-        if (cur > 50) {
-          $(this).removeClass('start').addClass('end')
-        }
-        $(this).next().html(cur.toFixed(2));
-      }
+    setTimeout(function () {
+      console.log(3);
+    }, 0)
+
+    console.log(2);
+
+    // $('.box').animate({width:200},function(){
+    //   $('.box').animate({height:200},function(){
+    //     $('.box').animate({marginTop:200},function(){
+    //       $('.box').animate({marginLeft:200},function(){
+
+    //       })
+    //     })
+    //   })
+    // });
+
+
+    // 延迟对象优化以上代码
+    function animate(option) {
+
+      var de = $.Deferred();
+      $('.box').animate(option, function () {
+        de.resolve();
+        // Callbacks.fire()
+      });
+      return de;
+    }
+    // done  resolve   reject always fail
+    animate({
+      width: 200
+    }).then(function () {
+      return animate({height: 200});
+    }).then(function(){
+      return animate({ marginTop:100})
+    }).then(function(){
+      return animate({ marginLeft:300})
     })
+
+
+    function Sleep(time){
+      var def = $.Deferred();
+
+      setTimeout(function(){
+        def.resolve();
+      },time)
+
+      return def;
+    }
+    // Deferred 最直观的价值，控制异步的触发顺序，并且使代码的阅读性提高
+    Sleep(1000)
+    .then(function(){
+      console.log('第一次触发');
+      return Sleep(2000);
+    })
+    .then(function(){
+      console.log('第二次触发');
+    })
+
+
+    // Callbacks  [resolve fn fn fn]
   </script>
 </body>
 

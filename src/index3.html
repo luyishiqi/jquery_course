@@ -5,85 +5,111 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>jquery ajax</title>
+  <title>Document</title>
+  <style>
+    img {
+      width: 200px;
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: #fff;
+      text-align: center;
+      padding-top: 30px;
+    }
+
+    .count::after {
+      content: '%';
+    }
+  </style>
 </head>
 
 <body>
+  <div class="banner"></div>
+  <img src="" alt="" asrc="img/1.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/2.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/3.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/4.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/5.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/6.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/7.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/8.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/9.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/10.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/11.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/12.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/13.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/14.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/15.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/16.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/17.jpg" class="yujiazai">
+  <img src="" alt="" asrc="img/18.jpg" class="yujiazai">
+  <!-- <div class="progress">
+    <span class="count">0</span>
+  </div> -->
+  <!-- <img src="img/1.jpg" alt=""> -->
   <script src="js/jquery.js"></script>
   <script>
-    // ajax的底层方法
-    // 第一种用法
-    // $.ajax({
-    //   url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
-    //   data: {
-    //     name: 123,
-    //     age: 'fsdajfkljkl'
-    //   },
-    //   dataType: 'jsonp',
-    //   jsonp: 'cb',
-    //   success: function (data) {
-    //     console.log(data, this);
-    //   },
-    //   complete:function(){
+    // for (var i = 0; i < 18; i++) {
+    //   var $image = $('<img>');
 
-    //   },
-    //   error: function (xhr, type, meg) {
-    //     console.log(meg, this);
+    //   $image.attr('src', './img/' + (i + 1) + '.jpg').appendTo('body');
+    // }
+    var i = 1;
+    var all = 18;
+    // (function () {
+    //   var _me = arguments.callee; //函数的引用
+    //   if (i <= all) {
+    //     var $image = $('<img>');
+    //     $('.count').html(Math.floor((i/all*100)));
+    //     $image.attr('src', './img/' + i  + '.jpg').load(function () {
+    //       $(this).appendTo('body');
+    //       i++;
+    //       _me();
+    //     })
+    //   }else{
+    //     $('.progress').fadeOut()
     //   }
-    // });
-    //第二种用法
-    // $.ajax('./index.html',{
-    //   type:'get',
-    //   success:function(data){
-    //     console.log(data);
-    //   }
-    // })
-    //第三种
+    // }())
 
-    // $.ajax('./index.html1',{
-
-    // }).then(function(data){
-    //   //成功的回调
-    //   console.log(data,'done回调');
-    // },function(xhr, type, meg){
-    //   //失败的回调
-    //   console.log(meg,'done回调');
-    // });
-    //第四种  done always then    延迟对象 Deferred
-
-    // $.ajax('./index.html',{
-    //   data:{
-    //     name:123
-    //   }
-    // }).done(function(data){
-    //   //成功的回调
-    //   console.log(data);
-    // }).fail(function(xhr,type,msg){
-    //   console.log(msg)
-    // }).always(function(){
-    //   console.log('always');
-    // })
-
-    //应用层 ajax方法
-
-
-    $.get('./index.html', {
-      name: 123,
-      age: 123
-    }).done(function (data) {
-
-    })
-
-    $.jsonp=function(url,data,jsonp){
-      return $.ajax(url,{data:data,jsonp:jsonp||'callback',dataType:'jsonp'})
+    function loadImage(url) {
+      var def = $.Deferred();
+      var $image = $('<img>');
+      $image.attr('src', url).load(function () {
+        // $(this).appendTo(appendToElement||'body');
+        def.resolve($image)
+      })
+      return def;
     }
-    $.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{},'cb')
-    .then(function(data){
-      console.log(data);
-    })
 
+    var yujiazais=   $('.yujiazai');
+    // $('.yujiazai').each(function (index, item) {
+    //     var srt = $(item).attr('asrc');
+    //     loadImage(srt).then(function (image) {
+    //       image.replaceAll($(item));
+    //     })
+    //   });
+     
+      var i=0;
+      var all= yujiazais.length;
+      (function () {
+        var _me = arguments.callee;
+        if (i < all) {
+          var oldImage= yujiazais.eq(i);
+          var src = oldImage.attr('asrc');
 
-    
+          loadImage(src)
+            .then(function (image) {
+              image.replaceAll(oldImage)
+              i++;
+              _me();
+            })
+        }
+      }())
   </script>
 </body>
 

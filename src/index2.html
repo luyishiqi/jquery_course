@@ -5,8 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>高级动画</title>
-  <link rel="stylesheet" href="css/reset.css">
+  <title>简单的ajax</title>
   <style>
     .box {
       width: 100px;
@@ -18,57 +17,80 @@
 
 <body>
   <div class="box"></div>
-  <input type="button" value="show" class="show">
-  <input type="button" value="hide" class="hide">
-  <input type="button" value="toggle" class="toggle">
-
-  <br>
-  <input type="button" value="slideDown" class="slideDown">
-  <input type="button" value="slideUp" class="slideUp">
-  <input type="button" value="slideToggle" class="slideToggle">
-
-
-  <br>
-  <input type="button" value="fadeIn" class="fadeIn">
-  <input type="button" value="fadeOut" class="fadeOut">
-  <input type="button" value="fadeToggle" class="fadeToggle">
-  <script src="js/jquery.js"></script>
+  <script src="./js/jquery.js"></script>
   <script>
-    $('.show').click(function(){
-      $('.box').show(500);
-    })
-    $('.hide').click(function(){
-      $('.box').hide(500);
-    })
+    function get(url) {
+      var def = $.Deferred();
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.onreadystatechange = function () {
+        if (xhr.status === 200 && xhr.readyState === 4) {
+          def.resolve(xhr.responseText); //放在队列的队头  第一触发
+        }
+        if (xhr.status === 404) {
+          def.reject(xhr);
+        }
+      }
+      xhr.send();
+
+      return def;
+    }
+
+    get('./index.html')
+      // .then(function (data) {
+      //   console.log(data);
+      // },function(data){
+      //   console.log(data);
+      // })
+      .done(function () {
+        console.log('成功的回调');
+      })
+      .fail(function () {
+        console.log('拒绝的回调')
+      })
+      .fail(function () {
+        console.log('父节点萨克雷荆防颗粒圣诞节')
+      })
+      .always(function () {
+        console.log('无论成功还是失败都会触发')
+      })
 
 
-    $('.toggle').click(function(){
-      $('.box').toggle(600);
-    })
+    /*
 
+    pending  
+        resolved  成功
 
-    $('.slideDown').click(function(){
-      $('.box').slideDown(500);
-    })
-    $('.slideUp').click(function(){
-      $('.box').slideUp(500);
-    })
-    $('.slideToggle').click(function(){
-      $('.box').slideToggle(600);
-    })
+        rejected  拒绝
 
+    */
+    /*
+      所有的实例jquery方法 都会有一个promise方法
+    */
+    // $('.box').animate({
+    //     width: 500
+    //   }).promise()
+    //   .then(function () {
+    //     return $('.box').animate({
+    //       height: 300
+    //     }).promise();
+    //   })
 
+    // 图片预加载
 
-    $('.fadeIn').click(function(){
-      $('.box').fadeIn(500);
-    })
-    $('.fadeOut').click(function(){
-      $('.box').fadeOut(500);
-    })
-    $('.fadeToggle').click(function(){
-      $('.box').fadeToggle(600);
-    })
-
+    // $.when();  处理过个延迟对象
+    $.when(
+        [
+          $.get('./index.html'), $.get('./js/todo/todo.js'),
+          $('.box').animate({width:300}).promise(),
+          1,
+          2,
+          true
+        ]
+      )
+      .done(function (data) {
+        console.log(data);
+      })
   </script>
 </body>
 
