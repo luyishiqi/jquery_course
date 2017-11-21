@@ -1,92 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>延迟对象</title>
-  <link rel="stylesheet" href="css/reset.css">
-  <style>
-    .box {
-      width: 100px;
-      height: 100px;
-      background: red;
-    }
-  </style>
+  <title>jquery dom 操作</title>
 </head>
-
 <body>
-  <div class="box"></div>
-
-  <script src="js/jquery.js">
-  </script>
+  <script src="js/jquery.js"></script>
   <script>
-    // 让异步代码扁平化，脱离回调地狱, 提供异步函数链式操作
-    console.log(1);
+    /*
+      增
+
+      删
+
+      修改
 
 
-    setTimeout(function () {
-      console.log(3);
-    }, 0)
+      查  find eq  get 
+    */
 
-    console.log(2);
-
-    // $('.box').animate({width:200},function(){
-    //   $('.box').animate({height:200},function(){
-    //     $('.box').animate({marginTop:200},function(){
-    //       $('.box').animate({marginLeft:200},function(){
-
-    //       })
-    //     })
-    //   })
-    // });
+    // 创建元素   createElement
+    var div = $('<div>'),
+        div = $('<div></div>');
+   div.addClass('box').css({
+     width:100,
+     height:100,
+     backgroundColor:'red'
+   }).appendTo('body')
+  //  .append('<div class="inner"></div>')
+  //  .append('<img>')
 
 
-    // 延迟对象优化以上代码
-    function animate(option) {
+   var prev = $('<div class="prev"></div>');
+  //  var next = $('<div class="next"></div>');
+  //  div.before(prev);
+  //  div.after(next);
+  //  var div2 = div.clone();
+  //  div.after(div2);
 
-      var de = $.Deferred();
-      $('.box').animate(option, function () {
-        de.resolve();
-        // Callbacks.fire()
-      });
-      return de;
-    }
-    // done  resolve   reject always fail
-    animate({
-      width: 200
-    }).then(function () {
-      return animate({height: 200});
-    }).then(function(){
-      return animate({ marginTop:100})
-    }).then(function(){
-      return animate({ marginLeft:300})
-    })
+  //  div.insertAfter(prev);
+  prev.insertAfter(div);  
+   //
+   /*
+    添加方法
+    appendTo      将元素添加在哪里
+    append        给元素添加什么
+    insertBefore  将元素添加在哪一个元素之前
+    before        在元素之前添加一个元素
+    insertAfter   将元素添加在哪一个元素之后
+    after         在元素之后添加一个元素
+    clone         深拷贝一个元素
 
+    prepend       在匹配的元素内容之前添加东西  相当于css的伪类  before
+    prependTo     将东西添加在哪些内容之前 
+   */
 
-    function Sleep(time){
-      var def = $.Deferred();
-
-      setTimeout(function(){
-        def.resolve();
-      },time)
-
-      return def;
-    }
-    // Deferred 最直观的价值，控制异步的触发顺序，并且使代码的阅读性提高
-    Sleep(1000)
-    .then(function(){
-      console.log('第一次触发');
-      return Sleep(2000);
-    })
-    .then(function(){
-      console.log('第二次触发');
-    })
-
-
-    // Callbacks  [resolve fn fn fn]
+    // function create(str){
+    //   console.log(str.match(/(?:^<\/?(\w+)>$)|(?:<(\w+)><\/(\w+)>)/));
+    // }
+    // create('<div>');
+  
   </script>
 </body>
-
 </html>

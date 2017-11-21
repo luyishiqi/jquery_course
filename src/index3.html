@@ -1,116 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <style>
-    img {
-      width: 200px;
-    }
-
-    .progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background: #fff;
-      text-align: center;
-      padding-top: 30px;
-    }
-
-    .count::after {
-      content: '%';
-    }
-  </style>
+  <title>替换</title>
 </head>
-
 <body>
-  <div class="banner"></div>
-  <img src="" alt="" asrc="img/1.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/2.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/3.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/4.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/5.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/6.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/7.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/8.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/9.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/10.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/11.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/12.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/13.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/14.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/15.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/16.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/17.jpg" class="yujiazai">
-  <img src="" alt="" asrc="img/18.jpg" class="yujiazai">
-  <!-- <div class="progress">
-    <span class="count">0</span>
-  </div> -->
-  <!-- <img src="img/1.jpg" alt=""> -->
+  <div class="user-face">
+    <div class="default-face">默认头像</div>
+
+  </div>
   <script src="js/jquery.js"></script>
   <script>
-    // for (var i = 0; i < 18; i++) {
-    //   var $image = $('<img>');
+    var isUserFace = true;
+    var userfaceImage = $('<div class="user-face-image">').html('用户头像');
 
-    //   $image.attr('src', './img/' + (i + 1) + '.jpg').appendTo('body');
-    // }
-    var i = 1;
-    var all = 18;
-    // (function () {
-    //   var _me = arguments.callee; //函数的引用
-    //   if (i <= all) {
-    //     var $image = $('<img>');
-    //     $('.count').html(Math.floor((i/all*100)));
-    //     $image.attr('src', './img/' + i  + '.jpg').load(function () {
-    //       $(this).appendTo('body');
-    //       i++;
-    //       _me();
-    //     })
-    //   }else{
-    //     $('.progress').fadeOut()
-    //   }
-    // }())
-
-    function loadImage(url) {
-      var def = $.Deferred();
-      var $image = $('<img>');
-      $image.attr('src', url).load(function () {
-        // $(this).appendTo(appendToElement||'body');
-        def.resolve($image)
-      })
-      return def;
-    }
-
-    var yujiazais=   $('.yujiazai');
-    // $('.yujiazai').each(function (index, item) {
-    //     var srt = $(item).attr('asrc');
-    //     loadImage(srt).then(function (image) {
-    //       image.replaceAll($(item));
-    //     })
-    //   });
-     
-      var i=0;
-      var all= yujiazais.length;
-      (function () {
-        var _me = arguments.callee;
-        if (i < all) {
-          var oldImage= yujiazais.eq(i);
-          var src = oldImage.attr('asrc');
-
-          loadImage(src)
-            .then(function (image) {
-              image.replaceAll(oldImage)
-              i++;
-              _me();
-            })
-        }
-      }())
+      if(isUserFace){
+        // $('.default-face').replaceWith(userfaceImage);
+        userfaceImage.replaceAll('.default-face');
+      }
   </script>
 </body>
-
 </html>

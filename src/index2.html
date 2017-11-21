@@ -1,97 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>简单的ajax</title>
-  <style>
-    .box {
-      width: 100px;
-      height: 100px;
-      background: red;
-    }
-  </style>
+  <title>Document</title>
 </head>
-
 <body>
-  <div class="box"></div>
-  <script src="./js/jquery.js"></script>
+  <div class="todo-wrapper">
+    <input type="text" class="newTodo">
+    <ul class="todo-list"></ul>
+  </div>
+  <script src="js/jquery.js"></script>
   <script>
-    function get(url) {
-      var def = $.Deferred();
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.onreadystatechange = function () {
-        if (xhr.status === 200 && xhr.readyState === 4) {
-          def.resolve(xhr.responseText); //放在队列的队头  第一触发
-        }
-        if (xhr.status === 404) {
-          def.reject(xhr);
-        }
+    var $newTodo  = $('.newTodo'),
+        $todoList = $('.todo-list');
+
+    $newTodo.on('keydown',function(ev){
+      if(ev.keyCode===13){
+        appendTodo($(this).val());  
+        $(this).val('');
       }
-      xhr.send();
+    })
+  function  appendTodo(text){
+    var $remove=$('<input type="button">').val('删除').click(function(){
+      $(this).parent().remove();
+    })
+    var $span =$('<span></span>').html(text);
+    var $modify = $('<input type="text">').val(text).hide().on('keydown',function(ev){
+      if(ev.keyCode===13){
+        $span.html($(this).val());
+        $(this).val($(this).val());
+        $modify.hide();
+        $span.show();
+        $remove.show();
+        $modifyBtn.show();
+      }
+    });
+    var $modifyBtn = $('<input type="button" value="修改">').click(function(){
+      $modify.show();
+      $span.hide();
+      $remove.hide();
+      $(this).hide();
+    })
 
-      return def;
-    }
+    var $createTime = $('<time>').html(Date.now());
 
-    get('./index.html')
-      // .then(function (data) {
-      //   console.log(data);
-      // },function(data){
-      //   console.log(data);
-      // })
-      .done(function () {
-        console.log('成功的回调');
-      })
-      .fail(function () {
-        console.log('拒绝的回调')
-      })
-      .fail(function () {
-        console.log('父节点萨克雷荆防颗粒圣诞节')
-      })
-      .always(function () {
-        console.log('无论成功还是失败都会触发')
-      })
-
-
-    /*
-
-    pending  
-        resolved  成功
-
-        rejected  拒绝
-
-    */
-    /*
-      所有的实例jquery方法 都会有一个promise方法
-    */
-    // $('.box').animate({
-    //     width: 500
-    //   }).promise()
-    //   .then(function () {
-    //     return $('.box').animate({
-    //       height: 300
-    //     }).promise();
-    //   })
-
-    // 图片预加载
-
-    // $.when();  处理过个延迟对象
-    $.when(
-        [
-          $.get('./index.html'), $.get('./js/todo/todo.js'),
-          $('.box').animate({width:300}).promise(),
-          1,
-          2,
-          true
-        ]
-      )
-      .done(function (data) {
-        console.log(data);
-      })
+    var $li = $('<li>').append([
+      $span,
+      $remove,
+      $modify,
+      $modifyBtn,
+      $createTime
+    ]);
+    $todoList.append($li);
+  }
   </script>
 </body>
-
 </html>
