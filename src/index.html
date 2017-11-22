@@ -1,66 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>jquery dom 操作</title>
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/jquery.modal.css">
 </head>
+
 <body>
+  <!-- 
+    插件
+      1.css 和  js
+   -->
+  <!-- <div class="modal">
+      <div class="modal-mark"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">标题</h4>
+          <span class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+          哈哈哈
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn">
+            按钮
+          </button>
+          <button class="modal-btn">
+           按钮
+         </button>
+        </div>
+      </div>
+    </div> -->
+
+
   <script src="js/jquery.js"></script>
+  <script src="js/jquery.modal.js"></script>
   <script>
-    /*
-      增
-
-      删
-
-      修改
-
-
-      查  find eq  get 
-    */
-
-    // 创建元素   createElement
-    var div = $('<div>'),
-        div = $('<div></div>');
-   div.addClass('box').css({
-     width:100,
-     height:100,
-     backgroundColor:'red'
-   }).appendTo('body')
-  //  .append('<div class="inner"></div>')
-  //  .append('<img>')
-
-
-   var prev = $('<div class="prev"></div>');
-  //  var next = $('<div class="next"></div>');
-  //  div.before(prev);
-  //  div.after(next);
-  //  var div2 = div.clone();
-  //  div.after(div2);
-
-  //  div.insertAfter(prev);
-  prev.insertAfter(div);  
-   //
-   /*
-    添加方法
-    appendTo      将元素添加在哪里
-    append        给元素添加什么
-    insertBefore  将元素添加在哪一个元素之前
-    before        在元素之前添加一个元素
-    insertAfter   将元素添加在哪一个元素之后
-    after         在元素之后添加一个元素
-    clone         深拷贝一个元素
-
-    prepend       在匹配的元素内容之前添加东西  相当于css的伪类  before
-    prependTo     将东西添加在哪些内容之前 
-   */
-
-    // function create(str){
-    //   console.log(str.match(/(?:^<\/?(\w+)>$)|(?:<(\w+)><\/(\w+)>)/));
-    // }
-    // create('<div>');
-  
+    $.modal.prompt('你需要服务吗？')
+      .done(function (result) {
+        console.log(result)
+      })
+      .fail(function () {
+        console.log('不需要服务')
+      })
   </script>
 </body>
+
 </html>
