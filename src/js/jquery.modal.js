@@ -8,7 +8,10 @@
     title: '标题', //标题
     content: '', //内容
     btns: ['确定'],
-    btnCallbacks: null
+    btnCallbacks: null,
+    template: null,
+    clickClose: true,
+    //模板  字符串 模板id
   }
 
 
@@ -26,6 +29,10 @@
     this.body = $('<div class="modal-body">');
     this.footer = $('<div class="modal-footer">');
 
+    this.template = this._getTemplte();
+    console.log(this.template);
+
+
     this.init();
   }
 
@@ -42,7 +49,7 @@
       this._contentInit();
       this.modal.append(this.content)
       if (this.opt.btnCallbacks) {
-        this.opt.btnCallbacks(this.modal.find('.modal-btn'),this.body);
+        this.opt.btnCallbacks(this.modal.find('.modal-btn'), this.body, this._closeModal.bind(this));
       }
       this._apppendDom();
     },
@@ -60,7 +67,8 @@
       this.header.appendTo(this.content);
     },
     _bodyInit: function () {
-      this.body.html(this.opt.content).appendTo(this.content);
+      var content = this.template ? this.template : this.opt.content;
+      this.body.html(content).appendTo(this.content);
     },
     _footerInit: function () {
       var _self = this;
@@ -93,12 +101,17 @@
 
       })
     },
+    _getTemplte: function () {
+      return $('script[modal-template="' + this.opt.template + '"]').html();
+    },
 
     /**
      * 创建按钮
      */
     _createBtn: function (val) {
-      this._clickClose('.modal-btn');
+      if (this.opt.clickClose) {
+        this._clickClose('.modal-btn');
+      }
       return $('<button class="modal-btn">').html(val);
     },
 
@@ -137,7 +150,7 @@
       var def = $.Deferred();
       Modal({
         mark: false,
-        content:question,
+        content: question,
         btns: ['确定', '取消'],
         btnCallbacks: function (btns) {
           btns.eq(0).on('click', function () {
@@ -152,14 +165,14 @@
     },
     prompt: function (option) {
       var def = $.Deferred();
-      var input=$('<input class="modal-prompt" type="text">')
+      var input = $('<input class="modal-prompt" type="text">')
       Modal({
         mark: false,
-        content:input,
+        content: input,
         btns: ['确定', '取消'],
-        btnCallbacks: function (btns,body) {
+        btnCallbacks: function (btns, body) {
           btns.eq(0).on('click', function () {
-            var val=body.find('.modal-prompt').val();
+            var val = body.find('.modal-prompt').val();
             def.resolve(val);
           })
           btns.eq(1).on('click', function () {
@@ -168,6 +181,10 @@
         }
       });
       return def;
+    },
+    // 底层  自定义
+    base: function (option) {
+      return Modal(option);
     }
   };
 }(jQuery));
