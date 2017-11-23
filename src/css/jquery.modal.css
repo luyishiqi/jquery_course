@@ -7,6 +7,7 @@
   z-index: 999;
 }
 .modal .modal-mark{
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -16,13 +17,16 @@
 }
 
 .modal .modal-content{
+  /* display: none; */
+  opacity: 0;
+  top: -100%;
   position: absolute;
   background: #fff;
   /* width: 30%; */
   padding: 10px 0 0;
   border-radius: 10px;
   left: 50%;
-  top: 10%;
+  /* top: 10%; */
   border: 1px solid #dedede;
   transform: translateX(-50%);
   box-shadow: 0 0 5px #000;

@@ -7,10 +7,10 @@
     mark: true, //是否需要 遮罩层
     title: '标题', //标题
     content: '', //内容
-    btns: ['确定'],
+    btns: [],
     btnCallbacks: null,
     template: null,
-    clickClose: true,
+    clickIsAutoClose: true,
     //模板  字符串 模板id
   }
 
@@ -48,7 +48,7 @@
       this._markInit();
       this._contentInit();
       this.modal.append(this.content)
-      if (this.opt.btnCallbacks) {
+      if (this.opt.btnCallbacks && this.opt.btns) {
         this.opt.btnCallbacks(this.modal.find('.modal-btn'), this.body, this._closeModal.bind(this));
       }
       this._apppendDom();
@@ -72,10 +72,13 @@
     },
     _footerInit: function () {
       var _self = this;
-      $.each(this.opt.btns, function (index, item) {
-        _self.footer.append(_self._createBtn(item));
-      });
-      this.footer.appendTo(this.content);
+      if (this.opt.btns) {
+        $.each(this.opt.btns, function (index, item) {
+          _self.footer.append(_self._createBtn(item));
+        });
+        this.footer.appendTo(this.content);
+      }
+
 
 
     },
@@ -91,7 +94,9 @@
     },
 
     _closeModal: function () {
-      this.modal.remove();
+      this.modal.fadeOut(function () {
+        $(this).remove();
+      })
     },
     _clickClose: function (select) {
       var _self = this;
@@ -109,14 +114,21 @@
      * 创建按钮
      */
     _createBtn: function (val) {
-      if (this.opt.clickClose) {
+      if (this.opt.clickIsAutoClose) {
         this._clickClose('.modal-btn');
       }
       return $('<button class="modal-btn">').html(val);
     },
 
     _apppendDom: function () {
+      var _self = this;
       this.modal.appendTo('body');
+      this.mark.fadeIn(function () {
+        _self.content.animate({
+          top: '10%',
+          opacity: 1
+        })
+      })
     },
 
   }

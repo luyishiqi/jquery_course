@@ -35,21 +35,20 @@
         </div>
       </div>
     </div> -->
-
+  <input type="button" value="button" class="login">
   <script type="text/html" modal-template="login">
-      <form action="">
-        <label for="username">用户名</label>
-        <input type="text" id="username" name="username">
-        <br>
-        <label for="password">密码</label>
-        <input type="text" id="password" name="password">
-      </form>
+    <form action="">
+      <label for="username">用户名</label>
+      <input type="text" id="username" name="username">
+      <br>
+      <label for="password">密码</label>
+      <input type="text" id="password" name="password">
+    </form>
   </script>
 
   <script src="js/jquery.js"></script>
   <script src="js/jquery.modal.js"></script>
   <script>
-    
     // $.modal.prompt('你需要服务吗？')
     //   .done(function (result) {
     //     console.log(result)
@@ -58,18 +57,20 @@
     //     console.log('不需要服务')
     //   })
 
-    $.modal.base({
-      title:'登录',
-      template:'login',
-      content:'content',
-      clickClose:false,//是否点击按钮时候自动关闭模态框
-      btns:['登录','去注册','取消'],
-      btnCallbacks:function(btns,body,close){
-        btns.on('click',function(){
-          console.log(close);
-          close();
-        })
-      }
+    $('.login').click(function () {
+      $.modal.base({
+        title: '登录',
+        template: 'login',
+        content: 'content',
+        clickIsAutoClose: false, //是否点击按钮时候自动关闭模态框
+        btns: ['登录', '去注册', '取消'],
+        btnCallbacks: function (btns, body, close) {
+          btns.on('click', function () {
+            console.log(close);
+            close();
+          })
+        }
+      })
     })
   </script>
 </body>
