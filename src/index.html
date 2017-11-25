@@ -9,61 +9,77 @@
 </head>
 
 <body>
+  <ul>
+
+  </ul>
+
+  <script type="text/html" id="test1">
+    <h1>{{aaa}}</h1>
+    <ul>
+        {{each users item index}}
+        <li>姓名:{{item.name}},年龄：{{item.age}},   
+          年龄情况：{{item.age | ageHandle}}
+        </li>
+        {{/each}}
+    </ul>
+  </script>
+
   <!-- 
-    前端
-      核心：制作客户端产品和用户体验
-      技术储备： 
-          基础  ps切图  静态页面布局（html+css） 网页的特效（js）  html css js 前端3板斧
-          进阶  h5 css3  jquery bootstrap vue 
-          高级  架构项目、前端工程化
-      工作流程：
-          1.切静态页面
-          2.与后台交互，工程化
-              a。 后台交互，业务逻辑 
-              b。 工程化，让代码的组织有规划，易扩展易升级
-          3.测试页面性能，会不会有bug
-              a。性能优化，减少请求量，减少dom操作，本地缓存，cdn（静态资源服务器）
-              b。做兼容性
-          4.发布项目
-              将代码放置服务器
 
-      ajax 
-      模拟数据，为了满足后台没数据的情况的一个玩意儿，给前端提供数据
+    [1,2,3].forEach(function(item,index){
 
-      模块化开发，一个文件就是一个模块
-      一个人负责一个模块
-        1.商品模块
-        2.用户模块
-        3.购物车模块
-        4.活动模块
-        5.交易模块
-      
-      从后台拿数据，在展现在网页上
-      
+    },[1,2,3])
+
    -->
-  <script src="js/require.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="js/template-web.js"></script>
   <script>
-    require.config({
-      // 配置模块的路径
-      paths:{
-        jquery:'./js/jquery',
-        mock :'./js/mock'
+    var name = "你好，模板引擎";
+
+    var tem = $('#test1').html(); // => 
+    
+    var users = [{
+        name: '张三',
+        age: 35
+      },
+      {
+        name: '李四',
+        age: 17
+      },
+      {
+        name: '王五',
+        age: 80
+      },
+    ];
+
+    /*
+      过滤器定义语法
+
+      template.defaults.imports.过滤器名字 =function (数据)
+    */
+  
+    template.defaults.imports.ageHandle=function(data){
+      if(data<18){
+        return '未成年';
+      }else if(data>=18&&data<80){
+        return '成年人'
+      }else {
+        return '老年人'
       }
-    })
+    }
+    var str = template.render(tem, {
+      aaa: name,
+      users:users
+    });
 
+  
+    // console.log(str);
+    $('body').append(str);
+    // var str = template(tem, {
+    //   aaa: name
+    // })
 
-    require(['jquery', 'mock'], function ($, Mock) {
-      var data = Mock.mock({
-        'list|100': [{
-          name: '@cname',
-          face: '@image(50x50,black)'
-        }]
-      })
-      console.log($);
-      $.each(data.list, function (index, item) {
-        $('body').append($('<img>').attr('src', item.face));
-      })
-    })
+    // console.log(str);
   </script>
 </body>
 
